@@ -1,0 +1,5 @@
+class AddQuantityToUsersIngredients < ActiveRecord::Migration[6.0]
+  def change
+    add_column :users_ingredients, :quantity, :integer
+  end
+end
