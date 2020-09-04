@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     def create
         @user = User.new(user_params)
         if @user.save
-            render json: { user: UserSerializer.new(@user) }, status: :created
+            render json: UserSerializer.new(@user)
         else
             render json: { error: 'failed to create user' }, status: :not_acceptable
         end

@@ -3,7 +3,7 @@ class SessionController < ApplicationController
     def create
         @user = User.find_by(username: login_params[:username])
         if @user && @user.authenticate(login_params[:password])
-            render json: { user: UserSerializer.new(@user) , status: :accepted}
+            render json: UserSerializer.new(@user)
         else
             render json: { message: 'Invalid username or password', status: :unauthorized}
         end
