@@ -7,9 +7,9 @@ class RecipesController < ApplicationController
     end
 
     def create
-        @recipe = Recipe.new(recipe_params)
+        @recipe = Recipe.new(name: recipe_params[:name], instructions: recipe_params[:instructions])
         if @recipe.save
-            params[:ingredients].each do |ingr|
+            recipe_params[:ingredients].each do |ingr|
                 ingredient = Ingredient.find_by(name: ingr[:name])
                 RecipesIngredient.create(recipe_id: @recipe.id, ingredient_id: ingredient.id, quantity: ingr[:quantity])
             end
@@ -18,13 +18,12 @@ class RecipesController < ApplicationController
         else
             render json: { error: 'failed to create recipe' }, status: :not_acceptable
         end
-        byebug
     end
 
     private
 
     def recipe_params
-        params.require(:recipe).permit(:name, :instructions)
+        params.require(:recipe).permit(:name, :instructions, :ingredients => [:name, :quantity])
     end
     def get_user
         @user = User.find(params[:user_id])
