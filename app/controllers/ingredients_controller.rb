@@ -1,6 +1,13 @@
 class IngredientsController < ApplicationController
+    before_action :get_user
+    
     def index
-        @ingredients = Ingredient.all
+        @ingredients = (@user ? @user.ingredients : Ingredient.all)
         render json: IngredientSerializer.new(@ingredients)
+    end
+
+    private
+    def get_user
+        @user = User.find(params[:user_id])
     end
 end
