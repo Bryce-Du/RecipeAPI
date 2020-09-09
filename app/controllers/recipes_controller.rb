@@ -11,9 +11,26 @@ class RecipesController < ApplicationController
         if @recipe.save
             recipe_params[:ingredients].each do |ingr|
                 ingredient = Ingredient.find_by(name: ingr[:name])
-                RecipesIngredient.create(recipe_id: @recipe.id, ingredient_id: ingredient.id, quantity: ingr[:quantity])
+                RecipesIngredient.create(recipe_id: @recipe.id, ingredient_id: ingredient.id, quantity: ingr[:quantity]) if ingredient
             end
             UsersRecipe.create(user_id: @user.id, recipe_id: @recipe.id)
+            render json: RecipeSerializer.new(@recipe)
+        else
+            render json: { error: 'failed to create recipe' }, status: :not_acceptable
+        end
+    end
+
+    def update
+        @recipe = Recipe.find(params[:id])
+        @recipe.name = recipe_params[:name]
+        @recipe.instructions = recipe_params[:instructions]
+        @recipe.ingredients = [] # remove all old ingredients
+        recipe_params[:ingredients].each do |ingr|
+            ingredient = Ingredient.find_by(name: ingr[:name]) # then add new ones back in
+            @recipe.ingredients.push(ingredient)
+            @recipe.recipes_ingredients.last.update(quantity: ingr[:quantity])
+        end
+        if @recipe.save
             render json: RecipeSerializer.new(@recipe)
         else
             render json: { error: 'failed to create recipe' }, status: :not_acceptable
