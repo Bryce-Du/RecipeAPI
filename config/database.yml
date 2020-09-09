@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: RecipeAPI-production
-  username: postgres
+  username: RecipeAPI
   password: <%= ENV['MEALPLANNER_DATABASE_PASSWORD'] %>
