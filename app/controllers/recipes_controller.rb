@@ -36,6 +36,15 @@ class RecipesController < ApplicationController
             render json: { error: 'failed to create recipe' }, status: :not_acceptable
         end
     end
+    
+    def destroy
+        @recipe = Recipe.destroy(params[:id])
+        if @recipe
+            render json: RecipeSerializer.new(@recipe)
+        else
+            render json: { error: 'failed to create recipe' }, status: :not_acceptable
+        end
+    end
 
     private
 
