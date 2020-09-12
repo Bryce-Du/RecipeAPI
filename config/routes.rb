@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post '/login', to: 'session#create'
   resources :recipes
   resources :ingredients
+  get '/ingredients/search/:searchTerm', to: 'ingredients#search'
   resources :users do
     resources :recipes, only: [:index, :create, :update, :destroy]
     resources :ingredients, only: [:index]

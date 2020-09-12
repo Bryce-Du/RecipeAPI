@@ -3,4 +3,6 @@ class Ingredient < ApplicationRecord
     has_many :recipes, through: :recipes_ingredients
     has_many :users_ingredients
     has_many :users, through: :users_ingredients
+
+    scope :search, ->(searchTerm){where("name like ?", "%#{searchTerm}%")}
 end
