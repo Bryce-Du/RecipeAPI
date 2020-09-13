@@ -1,6 +1,6 @@
 class IngredientsController < ApplicationController
     before_action :get_user
-    
+     
     def index
         @ingredients = (@user ? @user.ingredients : Ingredient.all.limit(20))
         render json: IngredientSerializer.new(@ingredients)

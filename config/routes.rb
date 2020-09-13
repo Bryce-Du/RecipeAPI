@@ -9,5 +9,7 @@ Rails.application.routes.draw do
     resources :ingredients, only: [:index]
     resources :users_ingredients, only: [:create]
   end
+  get '/users/:user_id/recipes/makeable', to: 'users_recipes#makeable'
+  post '/users/:user_id/recipes/:recipe_id/make', to: 'users_recipes#make'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
