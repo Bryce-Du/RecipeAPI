@@ -52,6 +52,6 @@ class RecipesController < ApplicationController
         params.require(:recipe).permit(:name, :instructions, :ingredients => [:name, :quantity])
     end
     def get_user
-        @user = User.find(params[:user_id])
+        @user = User.find(params[:user_id]) if params[:user_id]
     end
 end
