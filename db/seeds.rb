@@ -10,7 +10,7 @@ Ingredient.destroy_all
 
 api_url = "https://api.nal.usda.gov/fdc/v1/foods/search?query=*&dataType=SR%20Legacy&pageSize=7793&api_key="
 
-data = JSON.parse( RestClient.get(api_url + ENV["USDA_API_KEY"]))
+data = JSON.parse( RestClient.get(`#{api_url + ENV["USDA_API_KEY"]}`))
 
 data["foods"].each do |food_item|
     if food_item["commonNames"] && !Ingredient.find_by_name(food_item["commonNames"])
